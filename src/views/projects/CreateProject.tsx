@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProjectForm from "../../components/projects/ProjectForm";
 import type { ProjectFormData } from "../../types";
 import { createProject } from "../../api/Project";
@@ -11,13 +11,18 @@ export default function CreateProject() {
     description: "",
   };
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: initValues });
 
-  const handleForm = (data: ProjectFormData) => createProject(data);
+  const handleForm = async (data: ProjectFormData) => {
+    await createProject(data);
+    navigate("/");
+  };
   return (
     <>
       <div className=" max-w-3xl mx-auto">
