@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ProjectForm from "../../components/projects/ProjectForm";
 import type { ProjectFormData } from "../../types";
 import { createProject } from "../../api/Project";
+import { toast } from "react-toastify";
 
 export default function CreateProject() {
   const initValues: ProjectFormData = {
@@ -20,7 +21,8 @@ export default function CreateProject() {
   } = useForm({ defaultValues: initValues });
 
   const handleForm = async (data: ProjectFormData) => {
-    await createProject(data);
+    const response = await createProject(data);
+    toast.success(response);
     navigate("/");
   };
   return (
