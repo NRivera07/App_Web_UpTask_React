@@ -21,3 +21,22 @@ export type ProjectFormData = Pick<
   Project,
   "clientName" | "projectName" | "description"
 >;
+
+export const taskStatusSchema = z.enum([
+  "pending",
+  "onHold",
+  "inPorgress",
+  "underReview",
+  "completed",
+]);
+
+export const taskSchema = z.object({
+  _id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  project: z.string(),
+  status: taskStatusSchema,
+});
+
+export type Task = z.infer<typeof taskSchema>;
+export type TaskFormData = Pick<Task, "name" | "description">;
