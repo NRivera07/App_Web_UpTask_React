@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getProjectById } from "../../api/Project";
 import AddTaskModal from "../../components/task/AddTaskModal";
 import TaskList from "../../components/task/TaskList";
+import EditTask from "../../components/task/EditTask";
 
 export default function ProjectDetail() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ export default function ProjectDetail() {
         </nav>
         <TaskList tasks={data.tasks} />
         <AddTaskModal />
+        <EditTask />
       </>
     );
 }
