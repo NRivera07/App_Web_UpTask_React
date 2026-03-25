@@ -4,6 +4,7 @@ import { getProjectById } from "../../api/Project";
 import AddTaskModal from "../../components/task/AddTaskModal";
 import TaskList from "../../components/task/TaskList";
 import EditTask from "../../components/task/EditTask";
+import TaskModalDetails from "../../components/task/TaskModalDetails";
 
 export default function ProjectDetail() {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ export default function ProjectDetail() {
         <TaskList tasks={data.tasks} />
         <AddTaskModal />
         <EditTask />
+        <TaskModalDetails />
       </>
     );
 }
