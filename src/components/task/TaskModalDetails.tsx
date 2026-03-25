@@ -7,9 +7,11 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getTaskById } from "../../api/Task";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getTaskById, updateStatusTask } from "../../api/Task";
 import { formatDate, statusTranslations } from "../../utils";
+import { toast } from "react-toastify";
+import type { TaskStatus } from "../../types";
 
 export default function TaskModalDetails() {
   const location = useLocation();
@@ -28,11 +30,31 @@ export default function TaskModalDetails() {
     retry: false,
   });
 
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: updateStatusTask,
+    onSuccess: (data) => {
+      toast.success(data);
+      queryClient.invalidateQueries({ queryKey: ["projectDetail", projectId] });
+      queryClient.invalidateQueries({ queryKey: ["taskDetail", taskId] });
+      handleCloseModal();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newStatus = e.target.value as TaskStatus;
+    const payload = { projectId, taskId, status: newStatus };
+    mutate(payload);
+  };
+
   const handleCloseModal = () => {
     navigate(location.pathname, { replace: true });
   };
 
-  console.log("Detalle de la task :v", data);
   if (data)
     return (
       <>
@@ -82,6 +104,7 @@ export default function TaskModalDetails() {
                         Estado Actual: {statusTranslations[data.status]}
                         <select
                           defaultValue={data.status}
+                          onChange={(e) => handleChangeStatus(e)}
                           className="w-full p-3 bg-white border border-gray-300"
                         >
                           {Object.entries(statusTranslations).map(

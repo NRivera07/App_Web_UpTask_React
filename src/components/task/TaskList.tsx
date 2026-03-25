@@ -12,7 +12,7 @@ type GruoupedTasks = {
 const initialValuesGroups: GruoupedTasks = {
   pending: [],
   onHold: [],
-  inPorgress: [],
+  inProgress: [],
   underReview: [],
   completed: [],
 };
@@ -20,7 +20,7 @@ const initialValuesGroups: GruoupedTasks = {
 const statusStyles: { [key: string]: string } = {
   pending: "border-t-slate-500",
   onHold: "border-t-red-500",
-  inPorgress: "border-t-blue-500",
+  inProgress: "border-t-blue-500",
   underReview: "border-t-amber-500",
   completed: "border-t-emerald-500",
 };
